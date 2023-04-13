@@ -23,3 +23,14 @@ export async function getUserTickets(req: AuthenticatedRequest, res: Response) {
     return res.status(httpStatus.NOT_FOUND).send(error);
   }
 }
+
+export async function createTicket(req: AuthenticatedRequest, res: Response) {
+  try {
+    const { ticketTypeId } = req.body;
+    const userId: number = req.userId;
+    const ticket = await ticketService.createTicket({ userId, ticketTypeId: Number(ticketTypeId) });
+    return res.status(httpStatus.CREATED).json(ticket);
+  } catch (error) {
+    return res.status(httpStatus.NOT_FOUND).send(error);
+  }
+}
