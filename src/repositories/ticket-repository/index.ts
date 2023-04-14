@@ -38,6 +38,20 @@ async function getUserTicket(userId: number): Promise<Ticket | undefined> {
   return ticket;
 }
 
+async function getTicketById(ticketId: number) {
+  return prisma.ticket.findUnique({
+    where: { id: ticketId },
+    include: {
+      Enrollment: {
+        include: {
+          User: true,
+        },
+      },
+      TicketType: true,
+    },
+  });
+}
+
 async function createTicket({ ticketTypeId, enrollmentId }: CreateTicketParams): Promise<Ticket> {
   const ticket = prisma.ticket.create({
     data: {
@@ -68,6 +82,10 @@ async function createTicket({ ticketTypeId, enrollmentId }: CreateTicketParams):
   return ticket;
 }
 
+async function setTicketStatus(ticketId: number, status: 'PAID' | 'RESERVED') {
+  await prisma.ticket.update({ where: { id: ticketId }, data: { status } });
+}
+
 export type CreateTicketParams = {
   ticketTypeId: number;
   enrollmentId: number;
@@ -76,6 +94,8 @@ const ticketRepository = {
   getTicketTypes,
   getUserTicket,
   createTicket,
+  getTicketById,
+  setTicketStatus,
 };
 
 export default ticketRepository;
