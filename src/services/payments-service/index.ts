@@ -5,14 +5,11 @@ import ticketRepository from '@/repositories/ticket-repository';
 import { PaymentProcessingInfo } from '@/protocols';
 
 export async function getPayment({ userId, ticketId }: getPaymentParams): Promise<Payment> {
+  const ticket = await ticketRepository.getTicketById(ticketId);
+  if (!ticket) throw ticketNotFoundError();
+  if (ticket.Enrollment.User.id !== userId) throw ticketOwnerError();
+
   const payment = await paymentRepository.getPayment(ticketId);
-  // this isnt working
-  // (payment returning null)
-  if (!payment) {
-    throw ticketNotFoundError();
-  }
-  if (payment.Ticket.Enrollment.userId !== userId) throw ticketOwnerError();
-  delete payment.Ticket;
   return payment;
 }
 
@@ -25,7 +22,7 @@ export async function processPayment(userId: number, paymentInfo: PaymentProcess
 
   const price = ticket.TicketType.price;
   const payment = await paymentRepository.processPayment(paymentInfo, price);
-  ticketRepository.setTicketStatus(ticket.id, 'PAID');
+  await ticketRepository.setTicketStatus(ticket.id, 'PAID');
 
   return payment;
 }
