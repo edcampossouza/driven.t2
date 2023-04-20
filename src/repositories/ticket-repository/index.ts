@@ -7,7 +7,7 @@ async function getTicketTypes(): Promise<TicketType[]> {
   return ticketTypes;
 }
 
-async function getUserTicket(userId: number): Promise<Ticket | undefined> {
+async function getUserTicket(userId: number) {
   const ticket = prisma.ticket.findFirst({
     select: {
       createdAt: true,
