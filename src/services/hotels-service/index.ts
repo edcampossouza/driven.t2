@@ -1,5 +1,5 @@
 import { Enrollment, Hotel, Ticket, TicketType } from '@prisma/client';
-import { enrollmentNotFoundError, ticketNotFound } from './errors';
+import { enrollmentNotFoundError, noHotelsFound, ticketNotFound } from './errors';
 import hotelRepository from '@/repositories/hotels-repository';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 import ticketRepository from '@/repositories/ticket-repository';
@@ -12,6 +12,8 @@ export async function getHotels(userId: number): Promise<Hotel[]> {
   //enrollment has a ticket?
   const ticket = await ticketRepository.getUserTicket(userId);
   if (!ticket) throw ticketNotFound();
+  //are there any hotels?
+  if (hotels.length < 1) throw noHotelsFound();
   return hotels;
 }
 

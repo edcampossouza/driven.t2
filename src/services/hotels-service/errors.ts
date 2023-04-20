@@ -13,3 +13,10 @@ export function ticketNotFound(): ApplicationError {
     message: 'User does not have a ticket yet',
   };
 }
+
+export function noHotelsFound(): ApplicationError {
+  return {
+    name: 'NotFoundError',
+    message: 'There are no hotels',
+  };
+}
