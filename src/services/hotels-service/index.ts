@@ -17,9 +17,9 @@ export async function getHotels(userId: number): Promise<Hotel[]> {
   if (hotels.length < 1) throw noHotelsFound();
 
   const status = ticket.status;
-  if (status !== 'PAID') throw paymentError('Ticket not paid');
   if (ticket.TicketType.isRemote) throw paymentError('Ticket is for a remote event');
   if (!ticket.TicketType.includesHotel) throw paymentError('Ticket does not include accomodation');
+  if (status !== 'PAID') throw paymentError('Ticket not paid');
   return hotels;
 }
 
