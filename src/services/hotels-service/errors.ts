@@ -20,3 +20,10 @@ export function noHotelsFound(): ApplicationError {
     message: 'There are no hotels',
   };
 }
+
+export function hotelNotFound(id: number): ApplicationError {
+  return {
+    name: 'NotFoundError',
+    message: `There is no hotel with id: ${id}`,
+  };
+}

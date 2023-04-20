@@ -13,3 +13,14 @@ export async function getHotels(req: AuthenticatedRequest, res: Response, next: 
     next(error);
   }
 }
+
+export async function getHotelById(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  try {
+    const userId = req.userId;
+    const hotelId = req.params.hotelId;
+    const hotel = await hotelsService.getHotel(userId, Number(hotelId));
+    return res.status(httpStatus.OK).json(hotel);
+  } catch (error) {
+    next(error);
+  }
+}
