@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { authenticateToken, validateBody } from '@/middlewares';
+import { authenticateToken } from '@/middlewares';
 import { getHotels, getHotelById } from '@/controllers/hotels-controllers';
 
 const hotelsRouter = Router();

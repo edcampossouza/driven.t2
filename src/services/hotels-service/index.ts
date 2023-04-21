@@ -1,4 +1,4 @@
-import { Enrollment, Hotel, Room, Ticket, TicketType } from '@prisma/client';
+import { Hotel, Room } from '@prisma/client';
 import { enrollmentNotFoundError, hotelNotFound, noHotelsFound, ticketNotFound } from './errors';
 import hotelRepository from '@/repositories/hotels-repository';
 import enrollmentRepository from '@/repositories/enrollment-repository';
